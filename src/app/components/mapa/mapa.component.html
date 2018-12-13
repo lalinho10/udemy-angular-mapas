@@ -1,0 +1,32 @@
+<mat-grid-list cols="4" rowHeight="80px">
+    <mat-grid-tile [colspan]="3">
+        <h4>Haz clic en las ubicaciones de tus lugares favorito para agregar las marcadores en el mapa</h4>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1">
+        <button (click)="iniStorage()" mat-stroked-button color="primary">Reiniciar</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<mat-card>
+    <mat-card-title>Lugares favoritos</mat-card-title>
+    <mat-card-content>
+        <agm-map (mapClick)="addLocation($event)" [maxZoom]="15" [minZoom]="2" [zoom]="2">
+            <agm-marker *ngFor="let place of favouritePlaces; let i = index;" [iconUrl]="'/assets/img/blue_flame.png'" [latitude]="place.lat" [longitude]="place.lon">
+                <agm-info-window>
+                    <mat-card>
+                        <mat-card-title>{{place.name}}</mat-card-title>
+                        <mat-card-content>
+                            Principal atarctivo turístico: <strong>{{place.attraction}}</strong>
+                        </mat-card-content>
+                        <mat-card-actions *ngIf="place.editable">
+                            <div class="example-button-row">
+                                <button (click)="deleteLocation(i)" mat-raised-button color="warn">Eliminar</button>
+                                <button (click)="showFavouritePlaceDialog(place)" mat-raised-button color="primary">Editar</button>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+    </mat-card-content>
+</mat-card>
